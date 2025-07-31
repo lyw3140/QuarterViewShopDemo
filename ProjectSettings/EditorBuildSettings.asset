@@ -11,6 +11,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/VillageMap.unity
     guid: 036bdc7864a493842b7c98e46f113abf
+  - enabled: 1
+    path: Assets/Scenes/Desert_demoscene.unity
+    guid: 307b6c6b6e17e7946b076cfdcadbfe3c
+  - enabled: 1
+    path: Assets/EmaceArt/FREE EpicMobile 3d Voxel Forest And Atols - Winter/Scenes/EpicWoodland_Winter_Free.unity
+    guid: 0e6f4f0a4da36044e8be85b1610dee79
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
   m_UseUCBPForAssetBundles: 0

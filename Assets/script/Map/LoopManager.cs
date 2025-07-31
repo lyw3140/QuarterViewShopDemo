@@ -19,7 +19,7 @@ public class LoopManager : MonoBehaviour
 
     private void Start()
     {
-        LoadLoopData(); // ✅ 저장된 루프 수 불러오기
+        LoadLoopData(); // ✅ 루프 수 불러오기
         timer = 0f;
         UpdateLoopUI();
     }
@@ -51,9 +51,7 @@ public class LoopManager : MonoBehaviour
         }
 
         SaveLoopData();
-
-        // ✅ 실제 기지 씬 이름으로 수정
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("BaseScene"); // 실제 기지 씬 이름
     }
 
     public void GoToNextLoop()
@@ -69,7 +67,7 @@ public class LoopManager : MonoBehaviour
             else
                 Debug.LogWarning("⚠ PortalUIManager가 연결되지 않았습니다.");
 
-            SaveLoopData(); // ✅ 수동 루프 증가도 저장
+            SaveLoopData();
         }
         else
         {
@@ -86,11 +84,15 @@ public class LoopManager : MonoBehaviour
     void SaveLoopData()
     {
         PlayerPrefs.SetInt("LoopCount", currentLoop);
+        PlayerPrefs.SetString("LastScene", SceneManager.GetActiveScene().name);
+        PlayerGoldManager.Instance?.SaveGold(); // ✅ 골드 저장 추가
         PlayerPrefs.Save();
+        Debug.Log("💾 루프 및 골드 저장 완료");
     }
 
     void LoadLoopData()
     {
         currentLoop = PlayerPrefs.GetInt("LoopCount", 1); // 기본값 1
+        PlayerGoldManager.Instance?.LoadGold(); // ✅ (선택) 골드 불러오기
     }
 }

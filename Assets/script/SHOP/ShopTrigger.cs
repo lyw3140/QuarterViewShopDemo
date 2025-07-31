@@ -9,6 +9,7 @@ public class ShopTrigger : MonoBehaviour
     private bool isShopOpen = false;
 
     [SerializeField] private PlayerInput playerInput;
+    [SerializeField] private ShopUIManager shopUIManager; // ✅ 추가된 부분
 
     void Update()
     {
@@ -24,7 +25,10 @@ public class ShopTrigger : MonoBehaviour
     void OpenShop()
     {
         shopUI.SetActive(true);
-        SetCursorState(true); // 마우스 보이게
+        SetCursorState(true);
+
+        if (shopUIManager != null) // ✅ ShopUIManager 통해 슬롯 생성
+            shopUIManager.OpenShop();
 
         if (playerMovement != null)
             playerMovement.canMove = false;
@@ -39,9 +43,7 @@ public class ShopTrigger : MonoBehaviour
     void CloseShop()
     {
         shopUI.SetActive(false);
-
-        // ✅ 마우스를 숨기지 않고 유지
-        SetCursorState(true); // 무조건 보이도록 유지
+        SetCursorState(true);
 
         if (playerMovement != null)
             playerMovement.canMove = true;
@@ -55,8 +57,8 @@ public class ShopTrigger : MonoBehaviour
 
     void SetCursorState(bool isVisible)
     {
-        Cursor.visible = true; // ✅ 항상 true
-        Cursor.lockState = CursorLockMode.None; // ✅ 항상 None (움직일 수 있게)
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
     }
 
     void OnTriggerEnter(Collider other)
@@ -74,7 +76,7 @@ public class ShopTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = false;
-            CloseShop();  // 나가도 마우스는 유지됨
+            CloseShop();
             Debug.Log("⛔ 상점 범위 이탈 - UI 닫힘");
         }
     }

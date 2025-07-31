@@ -11,7 +11,7 @@ public class TooltipManager : MonoBehaviour
     void Awake()
     {
         instance = this;
-        Hide();  // ✅ 함수명 수정됨
+        Hide();
     }
 
     public static void Show(string text, Vector2 position)
@@ -20,7 +20,10 @@ public class TooltipManager : MonoBehaviour
 
         instance.tooltipText.text = text;
         instance.tooltipPanel.SetActive(true);
-        instance.tooltipPanel.transform.position = position;
+
+        // ✅ 깜빡임 방지를 위해 마우스에서 살짝 떨어진 위치로 설정
+        Vector2 offset = new Vector2(20f, -20f);
+        instance.tooltipPanel.transform.position = position + offset;
     }
 
     public static void Hide()

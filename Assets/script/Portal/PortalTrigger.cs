@@ -9,12 +9,22 @@ public class PortalTrigger : MonoBehaviour
 
     void Update()
     {
-        if (isPlayerInRange && Input.GetKeyDown(KeyCode.E))
+        if (isPlayerInRange)
         {
-            if (!isPortalOpen)
-                OpenPortal();
-            else
+            // E 키로 열고 닫기
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                if (!isPortalOpen)
+                    OpenPortal();
+                else
+                    ClosePortal();
+            }
+
+            // ESC 키로 닫기 (선택)
+            if (isPortalOpen && Input.GetKeyDown(KeyCode.Escape))
+            {
                 ClosePortal();
+            }
         }
     }
 
@@ -53,7 +63,7 @@ public class PortalTrigger : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             isPlayerInRange = false;
-            ClosePortal(); // 포탈 범위 이탈 시 자동 닫힘
+            ClosePortal(); // 범위 이탈 시 자동 닫기
             Debug.Log("⬅ 포탈 범위 이탈 - UI 자동 닫힘");
         }
     }

@@ -12,17 +12,17 @@ public class PortalUIManager : MonoBehaviour
 
     private int selectedIndex = -1;
 
-    // 실제 이동할 씬 이름들
-    private string[] sceneNames = { "VillageMap", "Map_Forest", "Map_Cave" };
-
-    // 플레이어에게 보여질 포탈 이름
-    private string[] sceneDisplayNames = { "마을", "숲", "동굴" };
+    // 이동할 씬 이름들
+    private string[] sceneNames = { "VillageMap", "Desert_demoscene", "EpicWoodland_Winter_Free" };
+    private string[] sceneDisplayNames = { "마을", "사막", "겨울숲" };
 
     void Start()
     {
-        for (int i = 0; i < portalButtons.Length; i++)
+        int buttonCount = Mathf.Min(portalButtons.Length, sceneNames.Length);
+
+        for (int i = 0; i < buttonCount; i++)
         {
-            int index = i; // 클로저 방지
+            int index = i;
             portalButtons[i].onClick.AddListener(() => SelectPortal(index));
         }
 
@@ -52,8 +52,7 @@ public class PortalUIManager : MonoBehaviour
         }
 
         selectedIndex = index;
-        ResetButtonColors();
-        HighlightButton(index);
+        UpdateButtonColors();
         titleText.text = $"\uD83C\uDF00 선택된 포탈: {sceneDisplayNames[index]}";
     }
 
@@ -67,11 +66,14 @@ public class PortalUIManager : MonoBehaviour
         }
     }
 
-    void HighlightButton(int index)
+    void UpdateButtonColors()
     {
-        var colors = portalButtons[index].colors;
-        colors.normalColor = Color.green;
-        portalButtons[index].colors = colors;
+        for (int i = 0; i < portalButtons.Length; i++)
+        {
+            var colors = portalButtons[i].colors;
+            colors.normalColor = (i == selectedIndex) ? Color.green : Color.white;
+            portalButtons[i].colors = colors;
+        }
     }
 
     void OnConfirm()
@@ -83,10 +85,9 @@ public class PortalUIManager : MonoBehaviour
         }
 
         string targetScene = sceneNames[selectedIndex];
-
         Debug.Log($"✅ '{sceneDisplayNames[selectedIndex]}' 맵으로 이동 중... ({targetScene})");
 
         HidePortalUI();
-        SceneManager.LoadScene(targetScene); // 여기서 직접 로딩함
+        SceneManager.LoadScene(targetScene);
     }
 }
